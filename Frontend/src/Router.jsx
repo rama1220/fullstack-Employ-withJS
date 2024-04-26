@@ -4,8 +4,11 @@ import Login from "./Component/Login";
 import AdminPage from "./Component/AdminPage";
 import DashoardMenu from "./Component/DashoardMenu";
 import Profile from "./Component/Profile";
-import Employe from "./Component/Employe";
+import Employe from "./Component/Employee";
 import CreateEmploye from "./Component/CreateEmploye";
+import EditEmployee from "./Component/EditEmployee";
+import EditProfile from "./Component/EditProfile";
+import SearchResult from "./Component/SearchResult";
 
 const Router = createBrowserRouter([
   {
@@ -24,7 +27,13 @@ const Router = createBrowserRouter([
       Component: DashoardMenu
     },{
       path: "profile",
-      Component: Profile
+      children :[{
+        path: "",
+        Component: Profile
+      },{
+        path: "editprofile/:id",
+        Component: EditProfile
+      }]
     },{
       path: "employee",
       children : [{
@@ -33,6 +42,12 @@ const Router = createBrowserRouter([
       },{
         path: "create",
         Component: CreateEmploye
+      },{
+        path: "edit/:id",
+        Component: EditEmployee
+      },{
+        path: "search",
+        Component: SearchResult
       }]
     }]
   },

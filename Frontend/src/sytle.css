@@ -13,8 +13,12 @@ nav {
   height: 60px;
   background-color: rgb(61, 115, 160);
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
   align-items: center;
+}
+.logo img {
+  width: 40px;
+  margin-left: 6rem;
 }
 .nav-link {
   text-decoration: none;
@@ -198,7 +202,7 @@ form button:hover {
 .sidebar {
   width: 20%;
   background-color: rgb(230, 230, 230);
-  height: 100vh;
+  height: 110vh;
 }
 .content {
   width: 80%;
@@ -212,6 +216,11 @@ form button:hover {
   padding: 20px;
   margin-top: 10px;
 }
+.sidebar-li-content li:hover {
+  background-color: #a4c6f9;
+  color: white;
+}
+
 .li-content {
   display: flex;
   align-items: center;
@@ -220,6 +229,9 @@ form button:hover {
 }
 .employe {
   display: none;
+}
+.image-profile svg {
+  cursor: pointer;
 }
 .profile h2 {
   margin-top: -3px;
@@ -269,8 +281,15 @@ form button:hover {
   background-color: rgb(61, 115, 160);
   color: white;
 }
+.btn-class-action {
+  display: flex;
+  gap: 10px;
+}
 .btn-create svg {
   margin-right: 10px;
+}
+.btn-back {
+  background-color: red;
 }
 .body-form {
   width: 1000px;
@@ -287,9 +306,25 @@ form button:hover {
   border-radius: 5px;
   border: 1px solid grey;
 }
+.form-grb h5 {
+  text-align: left;
+  color: rgb(85, 84, 84);
+  margin-bottom: 10px;
+}
 .body-form h1 {
   margin-left: 25px;
   margin-top: 20px;
   color: rgb(80, 79, 79);
   font-size: 1.6rem;
+}
+.form-input {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  margin-bottom: 20px;
+}
+.form-input input {
+  height: 25px;
+  margin-right: 5px;
 }

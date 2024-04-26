@@ -9,19 +9,24 @@ const useAuth = () => {
 };
 
 const AuthProvider = ({ children }) => {
-  const [classs, setclass] = useState("");
-  const [employee, setemployee] = useState([]);
-  const [profile, setprofile] = useState(null);
+  const [classs, setClass] = useState("");
+  const [employee, setEmployee] = useState([]);
+  const [profile, setProfile] = useState(null);
+  const [del, setDel] = useState(false);
 
   const endpoint = "http://localhost:4000";
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (token) {
+    const role = localStorage.getItem("roleId");
+    if (role == 1) {
+      getProfile(token);
+    } else {
       getProfile(token);
       getEmployee(token);
     }
-  }, []);
+  }, [del]);
+
   const Login = async (email, password) => {
     try {
       const response = await axios.post(`${endpoint}/login`, {
@@ -33,21 +38,19 @@ const AuthProvider = ({ children }) => {
       if (token && user) {
         localStorage.setItem("token", token);
         localStorage.setItem("user", user.name);
-        // console.log(response.data);
-        await getProfile(token);
-        await getEmployee(token);
-        if (user.roleId === 1) {
-          setclass("employe");
-        } else if (user.roleId === 2) {
-          setclass("");
-        }
+        localStorage.setItem("roleId", user.roleId);
 
+        await getProfile(token);
+        // await getEmployee(token);
+        if (user.roleId === 2) {
+          await getEmployee(token);
+        }
+        setClass(user.roleId === 1 ? "employe" : "");
         return response.data;
       }
     } catch (error) {
-      if (error.response) {
-        console.log(error.response);
-      }
+      console.error("there is an error:", error);
+      throw error;
     }
   };
 
@@ -55,35 +58,31 @@ const AuthProvider = ({ children }) => {
     try {
       const response = await axios.get(`${endpoint}/employee`, {
         headers: {
-          Authorization: `${token}`,
+          Authorization: token,
         },
       });
 
-      setemployee(response.data);
+      setEmployee(response.data);
       return response.data;
     } catch (error) {
-      if (error.response && error.response.status === 401) {
-        console.log("invalid token");
-      } else {
-        console.error("there is an error:", error);
-      }
+      console.error("there is an error:", error);
+      throw error;
     }
   };
 
   const getProfile = async (token) => {
-    if (token) {
-      try {
-        const response = await axios.get(`${endpoint}/profile`, {
-          headers: {
-            Authorization: `${token}`,
-          },
-        });
+    try {
+      const response = await axios.get(`${endpoint}/profile`, {
+        headers: {
+          Authorization: token,
+        },
+      });
 
-        setprofile(response.data);
-        return response.data;
-      } catch (error) {
-        console.error("there is an error:", error);
-      }
+      setProfile(response.data);
+      return response.data;
+    } catch (error) {
+      console.error("there is an error:", error);
+      throw error;
     }
   };
 
@@ -92,22 +91,84 @@ const AuthProvider = ({ children }) => {
     try {
       const response = await axios.post(`${endpoint}/employee`, data, {
         headers: {
-          Authorization: `${token}`,
+          Authorization: token,
         },
       });
       return response.data;
     } catch (error) {
-      if (error.response && error.response.status === 401) {
-        console.log("invalid token");
-      } else {
-        console.error("there is an error:", error);
-      }
+      console.error("there is an error:", error);
+      throw error;
     }
   };
+
+  const deleteEmploye = async (id) => {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await axios.delete(`${endpoint}/employee/${id}`, {
+        headers: {
+          Authorization: token,
+        },
+      });
+      setDel(true)
+      return response.data;
+    } catch (error) {
+      console.error("there is an error:", error);
+      throw error;
+    }
+  };
+
+  const getEmployeeById = async (id) => {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await axios.get(`${endpoint}/employee/${id}`, {
+        headers: {
+          Authorization: token,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error("there is an error:", error);
+      throw error;
+    }
+  };
+
+  const updateEmploye = async (id, data) => {
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await axios.put(`${endpoint}/employee/${id}`, data, {
+        headers: {
+          Authorization: token,
+        },
+      });
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.error("there is an error:", error);
+      throw error;
+    }
+  };
+  
+  const updateProfile = async (id, data) => {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await axios.put(`${endpoint}/profile/${id}`, data, {
+        headers: {
+          Authorization: token,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error("there is an error:", error);
+      throw error;
+    }
+  };
+  
 
   const Logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    localStorage.removeItem("roleId");
   };
 
   const Values = {
@@ -119,6 +180,10 @@ const AuthProvider = ({ children }) => {
     employee,
     profile,
     createEmploy,
+    deleteEmploye,
+    getEmployeeById,
+    updateEmploye,
+    updateProfile
   };
 
   return <AuthContext.Provider value={Values}>{children}</AuthContext.Provider>;

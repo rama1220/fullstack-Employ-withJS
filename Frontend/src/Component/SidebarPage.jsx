@@ -1,20 +1,30 @@
 import { useAuth } from "./AuthContext";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { useState, useEffect }  from "react";
 
 export default function SidebarPage() {
   const { Logout, classs } = useAuth();
+  const [classList, setClassList] = useState("");
   const navigate = useNavigate();
   const handleLogout = () => {
     Logout();
     navigate("/");
   };
 
+  useEffect(()=>{
+    const role = localStorage.getItem("roleId")
+    if(role === "1"){
+      setClassList("employe")
+    }
+  },[classs])
+  
+
   return (
     <div className="sidebar-li-content">
       <ul>
         <li>
-          <div className={`li-content ${classs}`}>
+          <div className={`li-content ${classList}`}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="26"

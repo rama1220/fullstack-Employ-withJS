@@ -1,14 +1,37 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "./AuthContext";
+import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-export default function CreateEmploye() {
-  const { createEmploy } = useAuth();
+export default function EditEmployee() {
+  const { id } = useParams();
+  const { getEmployeeById, updateEmploye } = useAuth();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [address, setAddress] = useState("");
   const [phone, setPhone] = useState("");
+  const [userId, setId] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const employee = await getEmployeeById(id);
+        if (employee) {
+          setId(employee?.employee?.userId);
+          setName(employee?.employee.user.name);
+          setEmail(employee?.employee.user.email);
+          setPassword(employee?.employee.user.password);
+          setAddress(employee?.employee.address);
+          setPhone(employee?.employee.phone);
+        }
+      } catch (error) {
+        console.error("Failed to fetch employee data:", error);
+      }
+    };
+
+    fetchData();
+  }, [getEmployeeById, id]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,7 +43,7 @@ export default function CreateEmploye() {
       phone: phone,
     };
     try {
-      await createEmploy(data);
+      await updateEmploye(userId,data);
       window.location.href = "/admin/employee";
     } catch (error) {
       console.error("Failed to create employe:", error.message);
@@ -39,7 +62,6 @@ export default function CreateEmploye() {
               placeholder="Name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              required
             />
           </div>
           <div className="form-grb">
@@ -49,7 +71,6 @@ export default function CreateEmploye() {
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              required
             />
           </div>
           <div className="form-grb">
@@ -59,7 +80,6 @@ export default function CreateEmploye() {
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              required
             />
           </div>
           <div className="form-grb">
@@ -69,7 +89,6 @@ export default function CreateEmploye() {
               placeholder="Address"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
-              required
             />
           </div>
           <div className="form-grb">
@@ -79,7 +98,6 @@ export default function CreateEmploye() {
               placeholder="Phone"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              required
             />
           </div>
           <div className="btn-class-action">
