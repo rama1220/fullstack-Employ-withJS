@@ -9,6 +9,10 @@ import CreateEmploye from "./Component/CreateEmploye";
 import EditEmployee from "./Component/EditEmployee";
 import EditProfile from "./Component/EditProfile";
 import SearchResult from "./Component/SearchResult";
+import Division from "./Component/Division";
+import CreateDivisi from "./Component/CreateDivisi";
+import EditDivisi from "./Component/EditDivisi";
+import Divisionemployee from "./Component/Divisionemployee";
 
 const Router = createBrowserRouter([
   {
@@ -22,34 +26,67 @@ const Router = createBrowserRouter([
   {
     path: "/admin",
     Component: AdminPage,
-    children : [{
-      path: "",
-      Component: DashoardMenu
-    },{
-      path: "profile",
-      children :[{
+    children: [
+      {
         path: "",
-        Component: Profile
-      },{
-        path: "editprofile/:id",
-        Component: EditProfile
-      }]
-    },{
-      path: "employee",
-      children : [{
-        path: "",
-        Component: Employe
-      },{
-        path: "create",
-        Component: CreateEmploye
-      },{
-        path: "edit/:id",
-        Component: EditEmployee
-      },{
-        path: "search",
-        Component: SearchResult
-      }]
-    }]
+        Component: DashoardMenu,
+      },
+      {
+        path: "profile",
+        children: [
+          {
+            path: "",
+            Component: Profile,
+          },
+          {
+            path: "editprofile/:id",
+            Component: EditProfile,
+          },
+        ],
+      },
+      {
+        path: "employee",
+        children: [
+          {
+            path: "",
+            Component: Employe,
+          },
+          {
+            path: "create",
+            Component: CreateEmploye,
+          },
+          {
+            path: "edit/:id",
+            Component: EditEmployee,
+          },
+          {
+            path: "search",
+            Component: SearchResult,
+          },
+        ],
+      },
+      {
+        path: "division",
+        children: [
+          {
+            path: "",
+            Component: Division,
+          },
+          {
+            path: "createdivision",
+            Component: CreateDivisi,
+          },
+          {
+            path: "editdivision/:id",
+            Component: EditDivisi,
+          },
+          {
+            path: "divisionemployee/:id",
+            Component: Divisionemployee,
+          },
+        ],
+      },
+    ],
   },
 ]);
 export default Router;

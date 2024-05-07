@@ -1,10 +1,10 @@
 import { useState } from "react"; // Import useState hook
 import TextInput from "../TextInput";
 import { useAuth } from "./AuthContext";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 export default function SearchComponent() {
   const { getEmployeeById } = useAuth();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [searchInput, setSearchInput] = useState("");
 
   const handleInput = (e) => {
@@ -29,7 +29,7 @@ export default function SearchComponent() {
     getEmployeeById(searchInputValue)
       .then(() => {
         localStorage.setItem("employ", searchInputValue);
-        navigate("search");
+        // navigate("search");
       })
       .catch((error) => {
         console.error("Error:", error);

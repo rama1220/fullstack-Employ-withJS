@@ -63,6 +63,7 @@ const AuthProvider = ({ children }) => {
       });
 
       setEmployee(response.data);
+      console.log(response.data);
       return response.data;
     } catch (error) {
       console.error("there is an error:", error);
@@ -94,6 +95,7 @@ const AuthProvider = ({ children }) => {
           Authorization: token,
         },
       });
+      console.log(response.data);
       return response.data;
     } catch (error) {
       console.error("there is an error:", error);
@@ -125,6 +127,7 @@ const AuthProvider = ({ children }) => {
           Authorization: token,
         },
       });
+      console.log(response.data);
       return response.data;
     } catch (error) {
       console.error("there is an error:", error);
@@ -163,7 +166,87 @@ const AuthProvider = ({ children }) => {
       throw error;
     }
   };
+
+  const createDivisi = async (data) => {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await axios.post(`${endpoint}/createDivision`, data, {
+        headers: {
+          Authorization: token,
+        },
+      });
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      console.error("there is an error:", error);
+      throw error;
+    }
+  };
+
+const updateDivisi = async (id, data) => {
+  const token = localStorage.getItem("token");
+  try {
+    const response = await axios.put(`${endpoint}/division/${id}`, data, {
+      headers: {
+        Authorization: token,
+      },
+    });
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error("there is an error:", error);
+    throw error;
+  }
+};
+
+const deleteDivisi = async (id) => {
+  const token = localStorage.getItem("token");
+  try {
+    const response = await axios.delete(`${endpoint}/division/${id}`, {
+      headers: {
+        Authorization: token,
+      },
+    });
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error("there is an error:", error);
+    throw error;
+  }
+};
   
+
+const getDivisi = async () => {
+  const token = localStorage.getItem("token");
+  try {
+    const response = await axios.get(`${endpoint}/division`, {
+      headers: {
+        Authorization: token,
+      },
+    });
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error("there is an error:", error);
+    throw error;
+  }
+};
+
+const getDivisiById = async(id) =>{
+  const token = localStorage.getItem("token");
+  try {
+    const response = await axios.get(`${endpoint}/division/${id}`, {
+      headers: {
+        Authorization: token,
+      },
+    });
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error("there is an error:", error);
+    throw error;
+  }
+}
 
   const Logout = () => {
     localStorage.removeItem("token");
@@ -183,7 +266,12 @@ const AuthProvider = ({ children }) => {
     deleteEmploye,
     getEmployeeById,
     updateEmploye,
-    updateProfile
+    updateProfile,
+    createDivisi,
+    updateDivisi,
+    deleteDivisi,
+    getDivisi,
+    getDivisiById 
   };
 
   return <AuthContext.Provider value={Values}>{children}</AuthContext.Provider>;

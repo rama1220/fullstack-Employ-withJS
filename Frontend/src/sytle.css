@@ -202,7 +202,7 @@ form button:hover {
 .sidebar {
   width: 20%;
   background-color: rgb(230, 230, 230);
-  height: 110vh;
+  height: 145vh;
 }
 .content {
   width: 80%;
@@ -327,4 +327,19 @@ form button:hover {
 .form-input input {
   height: 25px;
   margin-right: 5px;
+}
+.container-division {
+  width: 80%;
+  padding-top: 30px;
+}
+.view-dvs {
+  margin-right: 20px;
+}
+select {
+  width: 26rem;
+  height: 40px;
+}
+.container-division h1 {
+  margin-bottom: 10px;
+  font-size: 1.6rem;
 }

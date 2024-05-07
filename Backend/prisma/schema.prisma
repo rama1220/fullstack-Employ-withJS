@@ -77,14 +77,27 @@ model PermissionRole {
   @@id([permissionId, roleId])
   @@map("permission_role")
 }
-
 model Employee {
-  id        Int      @id @default(autoincrement())
-  userId    Int
-  address   String
-  phone     String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          Int       @id @default(autoincrement())
+  userId      Int
+  address     String
+  phone       String
+  born_at     String 
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  divisionId  Int
+  
+  division    Division @relation(fields: [divisionId], references: [id]) // Menambahkan tanda tanya (?) untuk menunjukkan bahwa Division adalah opsional
+  user        User      @relation(fields: [userId], references: [id])
+}
 
-  user      User     @relation(fields: [userId], references: [id])
+model Division {
+  id          Int        @id @default(autoincrement())
+  name        String     @unique
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  
+  employees   Employee[]
+  
+  @@map("divisions")
 }

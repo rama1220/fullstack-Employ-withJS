@@ -1,7 +1,8 @@
 import { useAuth } from "./AuthContext";
 import { Link } from "react-router-dom";
-import { FormatDate } from "../CreateAt";
+// import { FormatDate } from "../CreateAt";
 import SearchComponent from "./SearchComponent";
+import { Birthday } from "../Birthday";
 export default function Employe() {
   const { employee, deleteEmploye } = useAuth();
 
@@ -16,7 +17,7 @@ export default function Employe() {
   return (
     <div>
       <h2>Employee Data</h2>
-     
+
       <Link to="create" className="nav-link">
         <button className="btn-create">
           <svg
@@ -36,25 +37,27 @@ export default function Employe() {
       <table className="employee-table">
         <thead>
           <tr>
-            <th>User ID</th>
+            <th>No</th>
             <th>Name</th>
+            <th>Date of Birth</th>
             <th>Email</th>
             <th>Address</th>
-            <th>Phone Number</th>
-            <th>Created At</th>
+            {/* <th>Phone Number</th> */}
+            <th>Divisi</th>
             <th>Edit</th>
             <th>Delete</th>
           </tr>
         </thead>
         <tbody>
-          {employee?.employ?.map((emp) => (
+          {employee?.employ?.map((emp, index) => (
             <tr key={emp.id}>
-              <td>{emp.userId}</td>
+              <td>{index+1}</td>
               <td>{emp.user?.name}</td>
+              <td>{Birthday(emp.born_at)}</td>
               <td>{emp.user?.email}</td>
               <td>{emp.address}</td>
-              <td>{emp.phone}</td>
-              <td>{FormatDate(emp.createdAt)}</td>
+              {/* <td>{emp.phone}</td> */}
+              <td>{emp.division?.name}</td>
               <td>
                 <div>
                   <Link to={`edit/${emp.id}`} className="nav-link">

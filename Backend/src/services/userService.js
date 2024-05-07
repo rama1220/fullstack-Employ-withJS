@@ -62,7 +62,7 @@ export const createAdmin = async (userData) => {
     throw error;
   }
 };
-export const handleCreateEmploy = async (adminId, userData) => {
+export const handleCreateEmploy = async (adminId, userData, divisionId) => {
   try {
     const admin = await prisma.user.findUnique({
       where: {
@@ -85,6 +85,8 @@ export const handleCreateEmploy = async (adminId, userData) => {
           create: {
             address: userData.address,
             phone: userData.phone,
+            born_at: userData.born_at,
+            divisionId: userData.divisionId, 
           },
         },
       },
@@ -95,6 +97,7 @@ export const handleCreateEmploy = async (adminId, userData) => {
     throw error;
   }
 };
+
 export const deleteEmployee = async (adminId, employeeId) => {
   try {
     const admin = await prisma.user.findUnique({
@@ -149,6 +152,7 @@ export const readEmployee = async () => {
             password: true,
           },
         },
+        division: true,
       },
     });
     return employees;
@@ -171,6 +175,7 @@ export const getEmployeById = async (userId) => {
             password: true,
           },
         },
+        division: true,
       },
     });
     return user;
@@ -206,8 +211,10 @@ export const updateEmployee = async (adminId, employeeId, updatedData) => {
               userId: employeeId,
             },
             data: {
+              born_at: updatedData.born_at,
               address: updatedData.address,
               phone: updatedData.phone,
+              divisionId: updatedData.divisionId, 
             },
           },
         },
@@ -280,3 +287,96 @@ export const updateProfile = async (userId, userData) => {
     throw error;
   }
 };
+
+export const createDivision = async (adminId, DivisiData) => {
+  try {
+    const admin = await prisma.user.findUnique({
+      where: {
+        id: adminId,
+        roleId: 2,
+      },
+    });
+
+    if (!admin) {
+      throw new Error("Only admin can create employee account.");
+    }
+    const newDiv = await prisma.division.create({
+      data: {
+        name: DivisiData.name,
+      },
+    });
+
+    return newDiv;
+  } catch (error) {
+    throw error;
+  }
+};
+export const deleteDivision = async (divisionId) => {
+  try {
+    const deletedDivision = await prisma.division.delete({
+      where: {
+        id: divisionId,
+      },
+    });
+
+    return deletedDivision;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getAllDivisions = async () => {
+  try {
+    const divisions = await prisma.division.findMany({
+      include: {
+        employees: {
+          include: {
+            user: true 
+          }
+        },
+      },
+    });
+
+    return divisions;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+
+export const updateDivisionById = async (divisionId, updatedDivisionData) => {
+  try {
+    const updatedDivision = await prisma.division.update({
+      where: {
+        id: divisionId,
+      },
+      data: updatedDivisionData,
+    });
+
+    return updatedDivision;
+  } catch (error) {
+    throw error;
+  }
+};
+export const getDivisionById = async (divisionId) => {
+  try {
+    const division = await prisma.division.findUnique({
+      where: {
+        id: divisionId,
+      },
+      include: {
+        employees: {
+          include: {
+            user: true 
+          }
+        },
+      },
+    });
+
+    return division;
+  } catch (error) {
+    throw error;
+  }
+};
+

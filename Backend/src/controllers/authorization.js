@@ -11,6 +11,10 @@ export const Permission = {
   READ_EMPLOYEE: "read_employee",
   UPDATE_EMPLOYEE: "update_employee",
   DELETE_EMPLOYEE: "delete_employee",
+  CREATE_DIVISI: "create_divisi",
+  READ_DIVISI: "read_divisi",
+  UPDATE_DIVISI: "update_divisi",
+  DELETE_DIVISI: "delete_divisi",
 };
 
 export const PermissionAssignment = {
@@ -26,5 +30,9 @@ export const PermissionAssignment = {
     Permission.READ_EMPLOYEE,
     Permission.UPDATE_EMPLOYEE,
     Permission.DELETE_EMPLOYEE,
+    Permission.CREATE_DIVISI,
+    Permission.READ_DIVISI,
+    Permission.UPDATE_DIVISI,
+    Permission.DELETE_DIVISI,
   ],
 };
